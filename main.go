@@ -6,7 +6,7 @@ import (
 	"os"
 	"quiz3/config"
 
-	// "quiz3/database"
+	"quiz3/database"
 	"quiz3/router"
 
 	"github.com/joho/godotenv"
@@ -47,7 +47,7 @@ func connectToDB() {
 	if config.Err != nil {
 		panic(config.Err)
 	}
-	// database.DBMigrate(config.Db)
+	database.DBMigrate(config.Db)
 
 	fmt.Println("Successfully connected to the database")
 }
