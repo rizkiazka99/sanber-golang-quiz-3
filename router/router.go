@@ -9,8 +9,15 @@ import (
 func StartServer() *gin.Engine {
 	router := gin.Default()
 
-	router.POST("/register", controllers.Register)
-	router.POST("/login", controllers.Login)
+	router.POST("/api/register", controllers.Register)
+	router.POST("/api/login", controllers.Login)
+
+	router.POST("/api/categories", controllers.PostCategory)
+	router.GET("/api/categories", controllers.GetCategories)
+	router.GET("/api/categories/:id", controllers.GetCategoryById)
+	router.GET("/api/categories/:id/books", controllers.GetBooksByCategoryId)
+	router.PUT("/api/categories/:id", controllers.UpdateCategory)
+	router.DELETE("/api/categories/:id", controllers.DeleteCategory)
 
 	return router
 }

@@ -9,10 +9,10 @@ import (
 
 var jwtKey = []byte("jwt_confidential")
 
-func GenerateJwt(username string) (string, error) {
+func GenerateJwt(id string) (string, error) {
 	claims := jwt.MapClaims{
-		"username": username,
-		"exp":      time.Now().Add(time.Hour * 1).Unix(),
+		"id":  id,
+		"exp": time.Now().Add(time.Hour * 1).Unix(),
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
@@ -32,8 +32,8 @@ func ValidateJWT(tokenString string) (string, error) {
 	if err != nil {
 		return "", err
 	} else if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
-		username := claims["username"].(string)
-		return username, nil
+		id := claims["id"].(string)
+		return id, nil
 	} else {
 		return "", fmt.Errorf("invalid token")
 	}

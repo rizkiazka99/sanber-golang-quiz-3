@@ -22,7 +22,7 @@ func Register(ctx *gin.Context) {
 		})
 	} else if user.Username == "" || user.Password == "" {
 		ctx.JSON(http.StatusBadRequest, gin.H{
-			"error": "Field username dan/atau password tidak boleh kosong",
+			"error": "Username and/or password fields cannot be empty",
 		})
 	} else {
 		user.Id = utils.IDGenerator()
@@ -51,7 +51,7 @@ func Login(ctx *gin.Context) {
 		})
 	} else if user.Username == "" || user.Password == "" {
 		ctx.JSON(http.StatusBadRequest, gin.H{
-			"error": "Field username dan/atau password tidak boleh kosong",
+			"error": "Username and/or password fields cannot be empty",
 		})
 	} else {
 		userData, err := repository.Login(user.Username, user.Password)
@@ -62,8 +62,9 @@ func Login(ctx *gin.Context) {
 			})
 		} else {
 			var data models.LoggedIn
+			idStr := strconv.Itoa(userData.Id)
 
-			accessToken, e := middleware.GenerateJwt(user.Username)
+			accessToken, e := middleware.GenerateJwt(idStr)
 
 			if e != nil {
 				ctx.JSON(http.StatusBadRequest, gin.H{

@@ -67,11 +67,11 @@ func Login(username string, password string) (*models.User, error) {
 		} else {
 			return nil, config.Err
 		}
-	}
-
-	if err := middleware.CheckPasswordHash(password, user.Password); !err {
-		return nil, errors.New("incorrect username or password")
 	} else {
-		return &user, nil
+		if err := middleware.CheckPasswordHash(password, user.Password); !err {
+			return nil, errors.New("incorrect username or password")
+		} else {
+			return &user, nil
+		}
 	}
 }
