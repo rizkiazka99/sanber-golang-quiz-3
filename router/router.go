@@ -19,5 +19,11 @@ func StartServer() *gin.Engine {
 	router.PUT("/api/categories/:id", controllers.UpdateCategory)
 	router.DELETE("/api/categories/:id", controllers.DeleteCategory)
 
+	router.POST("/api/books", controllers.PostBook)
+	router.GET("/api/books", controllers.GetBooks)
+	router.GET("/api/books/:id", controllers.GetBookById)
+	router.PUT("/api/books/:id", controllers.UpdateBook)
+	router.DELETE("/api/books/:id", controllers.DeleteBook)
+
 	return router
 }
