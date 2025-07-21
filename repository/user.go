@@ -13,7 +13,7 @@ func CreateUser(user models.User) string {
 	var exists bool
 	var userCredentials models.User
 
-	existQuery := `SELECT EXISTS (SELECT 1 FROM users WHERE id = $1)`
+	existQuery := `SELECT EXISTS (SELECT 1 FROM users WHERE username = $1)`
 	e := config.Db.QueryRow(existQuery, user.Username).Scan(&exists)
 	if e != nil {
 		return "Username has been taken"
