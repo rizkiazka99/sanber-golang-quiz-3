@@ -19,7 +19,7 @@ CREATE TABLE books (
     price int NOT NULL,
     total_page int NOT NULL,
     thickness varchar(128) NOT NULL,
-    category_id int NOT NULL,
+    category_id BIGINT NOT NULL,
     created_at timestamp NOT NULL,
     created_by varchar(255) NOT NULL,
     modified_at timestamp NOT NULL,
