@@ -9,38 +9,46 @@ import (
 	"quiz3/models"
 )
 
-func CreateUser(user models.User) {
+func CreateUser(user models.User) string {
+	var exists bool
 	var userCredentials models.User
 
-	sqlStatement := `
-	INSERT INTO users (id, username, password, created_at, created_by, modified_at, modified_by)
-	VALUES ($1, $2, $3, $4, $5, $6, $7)
-	Returning *
-	`
-
-	config.Err = config.Db.QueryRow(
-		sqlStatement,
-		user.Id,
-		user.Username,
-		user.Password,
-		user.CreatedAt,
-		user.CreatedBy,
-		user.ModifiedAt,
-		user.ModifiedBy,
-	).Scan(
-		&userCredentials.Id,
-		&userCredentials.Username,
-		&userCredentials.Password,
-		&userCredentials.CreatedAt,
-		&userCredentials.CreatedBy,
-		&userCredentials.ModifiedAt,
-		&userCredentials.ModifiedBy,
-	)
-
-	if config.Err != nil {
-		panic(config.Err)
+	existQuery := `SELECT EXISTS (SELECT 1 FROM users WHERE id = $1)`
+	e := config.Db.QueryRow(existQuery, user.Username).Scan(&exists)
+	if e != nil {
+		return "Username has been taken"
 	} else {
-		fmt.Printf("User: %+v\n", userCredentials)
+		sqlStatement := `
+		INSERT INTO users (id, username, password, created_at, created_by, modified_at, modified_by)
+		VALUES ($1, $2, $3, $4, $5, $6, $7)
+		Returning *
+		`
+		config.Err = config.Db.QueryRow(
+			sqlStatement,
+			user.Id,
+			user.Username,
+			user.Password,
+			user.CreatedAt,
+			user.CreatedBy,
+			user.ModifiedAt,
+			user.ModifiedBy,
+		).Scan(
+			&userCredentials.Id,
+			&userCredentials.Username,
+			&userCredentials.Password,
+			&userCredentials.CreatedAt,
+			&userCredentials.CreatedBy,
+			&userCredentials.ModifiedAt,
+			&userCredentials.ModifiedBy,
+		)
+
+		if config.Err != nil {
+			panic(config.Err)
+		} else {
+			fmt.Printf("User: %+v\n", userCredentials)
+		}
+
+		return ""
 	}
 }
 

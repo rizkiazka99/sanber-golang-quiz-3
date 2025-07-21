@@ -35,10 +35,16 @@ func Register(ctx *gin.Context) {
 
 		fmt.Println(user)
 
-		repository.CreateUser(user)
-		ctx.JSON(http.StatusCreated, gin.H{
-			"user": user,
-		})
+		e := repository.CreateUser(user)
+		if e != "" {
+			ctx.JSON(http.StatusBadRequest, gin.H{
+				"error": e,
+			})
+		} else {
+			ctx.JSON(http.StatusCreated, gin.H{
+				"user": user,
+			})
+		}
 	}
 }
 
