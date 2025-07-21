@@ -16,6 +16,8 @@ func CreateUser(user models.User) string {
 	existQuery := `SELECT EXISTS (SELECT 1 FROM users WHERE username = $1)`
 	e := config.Db.QueryRow(existQuery, user.Username).Scan(&exists)
 	if e != nil {
+		return "Something went wrong"
+	} else if exists {
 		return "Username has been taken"
 	} else {
 		sqlStatement := `
