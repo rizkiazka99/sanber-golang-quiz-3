@@ -7,8 +7,9 @@ REST API ini memiliki 2 table utama, yakni Books dan Categories. Sebelum dapat m
 
 ### Auth
 - Register</br>
-/api/register</br>
+(POST) /api/register</br>
 ```json
+Request Body:
 {
     "username":"",
     "password":""
@@ -17,16 +18,17 @@ REST API ini memiliki 2 table utama, yakni Books dan Categories. Sebelum dapat m
 Password akan dienkripsi menjadi Hash oleh bcrypt setelah endpoint berhasil terpanggil.
 
 - Login</br>
-/api/login</br>
+(POST) /api/login</br>
 ```json
+Request Body:
 {
     "username":"",
     "password":""
 }
 ```
 Masukan Username dan Password yang telah diregistrasi, tidak bisa menggunakan random value.
-- Output Login:</br>
 ```json
+Output:
 {
     "data": {
         "id": 20250720184814636,
@@ -39,3 +41,46 @@ Masukan Username dan Password yang telah diregistrasi, tidak bisa menggunakan ra
 Masukan value "access_token" ke dalam key "Authorization" pada Header HTTP dan gunakan Bearer.
 
 ### Categories
+- Create Category</br>
+(POST) /api/categories</br>
+```json
+Request Body:
+{
+    "name": "Technology"
+}
+```
+- Get All Categories</br>
+(GET) /api/categories</br>
+- Get Category by ID</br>
+(GET) /api/categories/:id</br>
+- Get Books by Category ID</br>
+(GET) /api/categories/:id/books</br>
+- Update Category</br>
+(PUT) /api/categories/:id</br>
+- Delete Category</br>
+(DELETE) /api/categories/:id</br>
+
+### Books
+- Create Book</br>
+(POST) /api/books</br>
+```json
+Request Body:
+{
+  "title": "Computer Hardware 101",
+  "category_id": 20250721024035261,
+  "description": "A beginner's guide to computers and the process of building one",
+  "image_url": "https://example.com/images/great-adventure.jpg",
+  "release_year": 2021,
+  "price": 15,
+  "total_page": 320
+}
+```
+- Get All Books</br>
+(GET) /api/books</br>
+- Get Book by ID</br>
+(GET) /api/books/:id</br>
+- Update Book</br>
+(PUT) /api/books/:id</br>
+- Delete Category</br>
+(DELETE) /api/books/:id</br>
+
